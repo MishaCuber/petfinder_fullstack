@@ -1,0 +1,34 @@
+# PetFinder - Docker Compose для HR демонстрации
+# Автор: Михаил Кабаков
+# Запуск: docker compose -f docker-compose.hub.yml up -d
+# Доступ: http://localhost:3000
+services:
+  backend:
+    image: michaelkabakov/petfinder-backend:latest
+    container_name: petfinder-backend
+    restart: unless-stopped
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb+srv://petfinder-user:petfinder123@cluster0.8zl2mzk.mongodb.net/petfinder?retryWrites=true&w=majority&appName=Cluster0
+      - JWT_SECRET=petfinder-super-secret-jwt-key-2024
+      - MAX_FILE_SIZE=5242880
+      - ALLOWED_FILE_TYPES=image/jpeg,image/jpg,image/png,image/gif
+    ports:
+      - "5000:5000"
+    volumes:
+      - backend-uploads:/app/uploads
+
+  frontend:
+    image: michaelkabakov/petfinder-frontend:latest
+    container_name: petfinder-frontend
+    restart: unless-stopped
+    environment:
+      - VITE_API_URL=http://localhost:5000/api
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  backend-uploads:
