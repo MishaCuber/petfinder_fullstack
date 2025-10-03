@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import type { AuthRequest } from '../types/express.js';
 import jwt from 'jsonwebtoken';
 import { body, validationResult } from 'express-validator';
 import User from '../models/User.js';
@@ -100,7 +101,7 @@ router.post('/login', [
 });
 
 // Get current user
-router.get('/me', auth, async (req: Request, res: Response) => {
+router.get('/me', auth, async (req: AuthRequest, res: Response) => {
   try {
     const user = await User.findById(req.userId).select('-password');
     if (!user) {
