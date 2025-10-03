@@ -59,7 +59,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts'
 import { adminAPI } from '../services/api'
@@ -120,7 +119,6 @@ const AdminPanel: React.FC = () => {
   const [postPage, setPostPage] = useState(1)
   const itemsPerPage = 10
   const [selectedUsers, setSelectedUsers] = useState<string[]>([])
-  const [selectedPosts, setSelectedPosts] = useState<string[]>([])
   const [editPost, setEditPost] = useState<Post | null>(null)
   const [editSaving, setEditSaving] = useState(false)
 
@@ -538,12 +536,12 @@ const AdminPanel: React.FC = () => {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label={({ name, percent }: { name: string; percent: number }) => `${name} ${(percent * 100).toFixed(0)}%`}
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {petTypeData.map((entry, index) => (
+                  {petTypeData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
