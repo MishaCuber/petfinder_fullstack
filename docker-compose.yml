@@ -13,7 +13,7 @@ services:
       - MAX_FILE_SIZE=5242880
       - ALLOWED_FILE_TYPES=image/jpeg,image/jpg,image/png,image/gif
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
       - backend-uploads:/app/uploads
 
@@ -23,7 +23,7 @@ services:
     container_name: petfinder-frontend
     restart: unless-stopped
     environment:
-      - VITE_API_URL=http://localhost:5000/api
+      - VITE_API_URL=http://localhost:5001/api
     ports:
       - "3000:80"
     depends_on:
