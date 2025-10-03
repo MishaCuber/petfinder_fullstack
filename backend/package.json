@@ -9,6 +9,7 @@
     "build": "tsc",
     "start": "node dist/app.js",
     "seed": "tsx src/utils/seed.ts",
+    "seed:admin": "tsx src/scripts/seedAdmin.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

@@ -24,10 +24,10 @@ const Home: React.FC = () => {
   )
 
   const [filters, setFilters] = useState({
-    animalType: '',
+    petType: '',
     location: '',
     breed: '',
-    status: '',
+    type: '',
     page: 1,
     limit: 9,
   })
@@ -61,9 +61,9 @@ const Home: React.FC = () => {
             <FormControl fullWidth>
               <InputLabel>Тип животного</InputLabel>
               <Select
-                value={filters.animalType}
+                value={filters.petType}
                 label="Тип животного"
-                onChange={(e) => handleFilterChange('animalType', e.target.value)}
+                onChange={(e) => handleFilterChange('petType', e.target.value)}
               >
                 <MenuItem value="">Все</MenuItem>
                 <MenuItem value="cat">Коты</MenuItem>
@@ -92,9 +92,9 @@ const Home: React.FC = () => {
             <FormControl fullWidth>
               <InputLabel>Статус</InputLabel>
               <Select
-                value={filters.status}
+                value={filters.type}
                 label="Статус"
-                onChange={(e) => handleFilterChange('status', e.target.value)}
+                onChange={(e) => handleFilterChange('type', e.target.value)}
               >
                 <MenuItem value="">Все</MenuItem>
                 <MenuItem value="lost">Потерян</MenuItem>

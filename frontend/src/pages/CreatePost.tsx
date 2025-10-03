@@ -43,12 +43,13 @@ const CreatePost: React.FC = () => {
       formik.setValues({
         title: currentPost.title,
         description: currentPost.description,
-        animalType: currentPost.animalType,
-        breed: currentPost.breed,
+        petType: currentPost.petType,
+        breed: currentPost.breed || '',
+        color: currentPost.color || '',
+        size: currentPost.size || '',
         location: currentPost.location,
-        dateLost: currentPost.dateLost.split('T')[0],
-        contactPhone: currentPost.contactPhone,
-        status: currentPost.status,
+        contactInfo: currentPost.contactInfo,
+        type: currentPost.type,
       })
     }
   }, [isEdit, currentPost])
@@ -57,15 +58,16 @@ const CreatePost: React.FC = () => {
     initialValues: {
       title: '',
       description: '',
-      animalType: '',
+      petType: '',
       breed: '',
+      color: '',
+      size: '',
       location: '',
-      dateLost: '',
-      contactPhone: '',
-      status: 'lost',
+      contactInfo: '',
+      type: 'lost',
     },
     validationSchema: postValidationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
         setError('')
         const formData = new FormData()
@@ -79,14 +81,24 @@ const CreatePost: React.FC = () => {
         })
 
         if (isEdit && id) {
-          await dispatch(updatePost({ id, postData: formData }) as any)
+          const result = await dispatch(updatePost({ id, postData: formData }) as any)
+          if (updatePost.rejected.match(result)) {
+            setError(result.payload as string)
+            return
+          }
         } else {
-          await dispatch(createPost(formData) as any)
+          const result = await dispatch(createPost(formData) as any)
+          if (createPost.rejected.match(result)) {
+            setError(result.payload as string)
+            return
+          }
         }
         
         navigate(isEdit ? `/posts/${id}` : '/')
       } catch (error: any) {
         setError(error.payload || 'Произошла ошибка')
+      } finally {
+        setSubmitting(false)
       }
     },
   })
@@ -149,12 +161,12 @@ const CreatePost: React.FC = () => {
               <FormControl fullWidth>
                 <InputLabel>Тип животного</InputLabel>
                 <Select
-                  name="animalType"
-                  value={formik.values.animalType}
+                  name="petType"
+                  value={formik.values.petType}
                   label="Тип животного"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.animalType && Boolean(formik.errors.animalType)}
+                  error={formik.touched.petType && Boolean(formik.errors.petType)}
                 >
                   <MenuItem value="cat">Кот</MenuItem>
                   <MenuItem value="dog">Собака</MenuItem>
@@ -192,38 +204,55 @@ const CreatePost: React.FC = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label="Дата пропажи/находки"
-                name="dateLost"
-                type="date"
-                InputLabelProps={{ shrink: true }}
-                value={formik.values.dateLost}
+                label="Цвет"
+                name="color"
+                value={formik.values.color}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.dateLost && Boolean(formik.errors.dateLost)}
-                helperText={formik.touched.dateLost && formik.errors.dateLost}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Контактный телефон"
-                name="contactPhone"
-                value={formik.values.contactPhone}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.contactPhone && Boolean(formik.errors.contactPhone)}
-                helperText={formik.touched.contactPhone && formik.errors.contactPhone}
+                error={formik.touched.color && Boolean(formik.errors.color)}
+                helperText={formik.touched.color && formik.errors.color}
               />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
-                <InputLabel>Статус</InputLabel>
+                <InputLabel>Размер</InputLabel>
                 <Select
-                  name="status"
-                  value={formik.values.status}
-                  label="Статус"
+                  name="size"
+                  value={formik.values.size}
+                  label="Размер"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.size && Boolean(formik.errors.size)}
+                >
+                  <MenuItem value="">Не указан</MenuItem>
+                  <MenuItem value="small">Маленький</MenuItem>
+                  <MenuItem value="medium">Средний</MenuItem>
+                  <MenuItem value="large">Большой</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Контактная информация"
+                name="contactInfo"
+                value={formik.values.contactInfo}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.contactInfo && Boolean(formik.errors.contactInfo)}
+                helperText={formik.touched.contactInfo && formik.errors.contactInfo}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <InputLabel>Тип объявления</InputLabel>
+                <Select
+                  name="type"
+                  value={formik.values.type}
+                  label="Тип объявления"
                   onChange={formik.handleChange}
                 >
                   <MenuItem value="lost">Потерян</MenuItem>

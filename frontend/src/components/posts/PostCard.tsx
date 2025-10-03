@@ -64,12 +64,12 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     navigate(`/posts/${post._id}`)
   }
 
-  const getStatusColor = (status: string) => {
-    return status === 'lost' ? 'error' : 'success'
+  const getStatusColor = (type: string) => {
+    return type === 'lost' ? 'error' : 'success'
   }
 
-  const getStatusText = (status: string) => {
-    return status === 'lost' ? 'Потерян' : 'Найден'
+  const getStatusText = (type: string) => {
+    return type === 'lost' ? 'Потерян' : 'Найден'
   }
 
   const getAnimalTypeText = (animalType: string) => {
@@ -94,7 +94,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       }}
       onClick={handleCardClick}
     >
-      {post.photos.length > 0 ? (
+      {(post.photos && post.photos.length > 0) ? (
         <CardMedia
           component="img"
           height="200"
@@ -122,14 +122,14 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             {post.title}
           </Typography>
           <Chip
-            label={getStatusText(post.status)}
-            color={getStatusColor(post.status)}
+            label={getStatusText(post.type)}
+            color={getStatusColor(post.type)}
             size="small"
           />
         </Box>
 
         <Typography variant="body2" color="text.secondary" gutterBottom>
-          {getAnimalTypeText(post.animalType)} • {post.breed}
+          {getAnimalTypeText(post.petType)} • {post.breed}
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
@@ -142,12 +142,12 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <CalendarToday fontSize="small" color="action" />
           <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-            {new Date(post.dateLost).toLocaleDateString('ru-RU')}
+            {new Date(post.createdAt).toLocaleDateString('ru-RU')}
           </Typography>
         </Box>
 
         <Typography variant="body2" sx={{ mt: 1 }}>
-          {post.description.length > 100
+          {(post.description?.length ?? 0) > 100
             ? `${post.description.substring(0, 100)}...`
             : post.description}
         </Typography>

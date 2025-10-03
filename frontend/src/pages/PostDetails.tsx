@@ -110,8 +110,8 @@ const PostDetails: React.FC = () => {
                 {currentPost.title}
               </Typography>
               <Chip
-                label={currentPost.status === 'lost' ? 'Потерян' : 'Найден'}
-                color={currentPost.status === 'lost' ? 'error' : 'success'}
+                label={currentPost.type === 'lost' ? 'Потерян' : 'Найден'}
+                color={currentPost.type === 'lost' ? 'error' : 'success'}
               />
             </Box>
 
@@ -143,8 +143,8 @@ const PostDetails: React.FC = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <Typography><strong>Вид:</strong> {
-                    currentPost.animalType === 'cat' ? 'Кот' : 
-                    currentPost.animalType === 'dog' ? 'Собака' : 'Другое'
+                    currentPost.petType === 'cat' ? 'Кот' : 
+                    currentPost.petType === 'dog' ? 'Собака' : 'Другое'
                   }</Typography>
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -160,7 +160,7 @@ const PostDetails: React.FC = () => {
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <CalendarToday sx={{ mr: 1 }} />
                     <Typography>
-                      <strong>Дата:</strong> {new Date(currentPost.dateLost).toLocaleDateString('ru-RU')}
+                      <strong>Дата создания:</strong> {new Date(currentPost.createdAt).toLocaleDateString('ru-RU')}
                     </Typography>
                   </Box>
                 </Grid>
@@ -264,7 +264,7 @@ const PostDetails: React.FC = () => {
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Phone sx={{ mr: 1 }} />
-                <Typography><strong>Телефон:</strong> {currentPost.contactPhone}</Typography>
+                <Typography><strong>Контакт:</strong> {currentPost.contactInfo}</Typography>
               </Box>
             </Box>
 

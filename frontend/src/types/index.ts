@@ -2,8 +2,9 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  phone: string;
+  phone?: string;
   role: 'user' | 'admin';
+  isBlocked?: boolean;
   avatar?: string;
   createdAt: string;
 }
@@ -12,18 +13,16 @@ export interface Post {
   _id: string;
   title: string;
   description: string;
-  animalType: 'cat' | 'dog' | 'other';
-  breed: string;
+  type: 'lost' | 'found';
+  petType: string;
+  breed?: string;
+  color?: string;
+  size?: 'small' | 'medium' | 'large';
   location: string;
+  contactInfo: string;
   photos: string[];
-  dateLost: string;
-  contactPhone: string;
   author: User;
-  status: 'lost' | 'found';
-  coordinates?: {
-    lat: number;
-    lng: number;
-  };
+  status: 'active' | 'resolved' | 'closed';
   createdAt: string;
   updatedAt: string;
 }
@@ -67,10 +66,10 @@ export interface CommentsState {
 }
 
 export interface Filters {
-  animalType?: string;
+  petType?: string;
   location?: string;
-  dateLost?: string;
   breed?: string;
+  type?: string;
   status?: string;
   page?: number;
   limit?: number;

@@ -66,12 +66,12 @@ const MyPosts: React.FC = () => {
     setSelectedPost(null)
   }
 
-  const getStatusColor = (status: string) => {
-    return status === 'lost' ? 'error' : 'success'
+  const getStatusColor = (type: string) => {
+    return type === 'lost' ? 'error' : 'success'
   }
 
-  const getStatusText = (status: string) => {
-    return status === 'lost' ? 'Потерян' : 'Найден'
+  const getStatusText = (type: string) => {
+    return type === 'lost' ? 'Потерян' : 'Найден'
   }
 
   if (loading) {
@@ -126,12 +126,12 @@ const MyPosts: React.FC = () => {
                       </Typography>
                       <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1, mb: 1 }}>
                         <Chip
-                          label={getStatusText(post.status)}
-                          color={getStatusColor(post.status)}
+                          label={getStatusText(post.type)}
+                          color={getStatusColor(post.type)}
                           size="small"
                         />
                         <Typography variant="body2" color="text.secondary">
-                          {post.animalType === 'cat' ? 'Кот' : post.animalType === 'dog' ? 'Собака' : 'Другое'} • {post.breed}
+                          {post.petType === 'cat' ? 'Кот' : post.petType === 'dog' ? 'Собака' : 'Другое'} • {post.breed}
                         </Typography>
                       </Box>
                       <Typography variant="body2" sx={{ mb: 1 }}>

@@ -59,22 +59,41 @@ export const authAPI = {
 export const postsAPI = {
   getPosts: (params?: any) => api.get('/posts', { params }),
   getPost: (id: string) => api.get(`/posts/${id}`),
-  createPost: (postData: FormData) => api.post('/posts', postData),
-  updatePost: (id: string, postData: FormData) => api.put(`/posts/${id}`, postData),
+  createPost: (postData: FormData) => api.post('/posts', postData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }),
+  updatePost: (id: string, postData: FormData) => api.put(`/posts/${id}`, postData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }),
   deletePost: (id: string) => api.delete(`/posts/${id}`),
   getUserPosts: () => api.get('/posts/user'),
 };
 
 export const usersAPI = {
-  getProfile: () => api.get('/users/profile'),
-  updateProfile: (userData: FormData) => api.put('/users/profile', userData),
+  getProfile: () => api.get('/users/me'),
+  updateProfile: (userData: FormData) => api.put('/users/profile', userData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }),
 };
 
 export const adminAPI = {
   getStats: () => api.get('/admin/stats'),
   getUsers: () => api.get('/admin/users'),
+  getPosts: () => api.get('/admin/posts'),
+  updatePost: (id: string, payload: Partial<{ title: string; description: string; location: string; petType: string; breed?: string; color?: string; size?: string; contactInfo: string; type: 'lost'|'found' }>) => api.patch(`/admin/posts/${id}`, payload),
+  getComments: () => api.get('/admin/comments'),
   deleteUser: (id: string) => api.delete(`/admin/users/${id}`),
   updateUserRole: (id: string, role: string) => api.patch(`/admin/users/${id}/role`, { role }),
+  blockUser: (id: string, isBlocked: boolean) => api.patch(`/admin/users/${id}/status`, { isBlocked }),
+  updatePostStatus: (id: string, status: 'active' | 'resolved' | 'closed') => api.patch(`/admin/posts/${id}/status`, { status }),
+  deletePost: (id: string) => api.delete(`/admin/posts/${id}`),
+  deleteComment: (id: string) => api.delete(`/admin/comments/${id}`),
 };
 
 export const commentsAPI = {

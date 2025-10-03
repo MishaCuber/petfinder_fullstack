@@ -112,16 +112,32 @@ const postsSlice = createSlice({
         state.currentPost = action.payload;
       })
       // Create Post
+      .addCase(createPost.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(createPost.fulfilled, (state, action) => {
+        state.loading = false;
         state.posts.unshift(action.payload);
       })
+      .addCase(createPost.rejected, (state, action) => {
+        state.loading = false;
+        console.error('Create post error:', action.payload);
+      })
       // Update Post
+      .addCase(updatePost.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(updatePost.fulfilled, (state, action) => {
+        state.loading = false;
         const index = state.posts.findIndex(post => post._id === action.payload._id);
         if (index !== -1) {
           state.posts[index] = action.payload;
         }
         state.currentPost = action.payload;
+      })
+      .addCase(updatePost.rejected, (state, action) => {
+        state.loading = false;
+        console.error('Update post error:', action.payload);
       })
       // Delete Post
       .addCase(deletePost.fulfilled, (state, action) => {

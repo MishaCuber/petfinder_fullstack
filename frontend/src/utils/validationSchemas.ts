@@ -15,10 +15,11 @@ export const registerValidationSchema = Yup.object({
 export const postValidationSchema = Yup.object({
   title: Yup.string().required('Required'),
   description: Yup.string().required('Required'),
-  animalType: Yup.string().oneOf(['cat', 'dog', 'other']).required('Required'),
-  breed: Yup.string().required('Required'),
+  petType: Yup.string().required('Required'),
+  breed: Yup.string(),
+  color: Yup.string(),
+  size: Yup.string().oneOf(['small', 'medium', 'large', '']),
   location: Yup.string().required('Required'),
-  dateLost: Yup.date().required('Required'),
-  contactPhone: Yup.string().required('Required'),
-  status: Yup.string().oneOf(['lost', 'found']).required('Required'),
+  contactInfo: Yup.string().required('Required'),
+  type: Yup.string().oneOf(['lost', 'found']).required('Required'),
 });
